@@ -8,7 +8,7 @@ module.exports = async (req, res) => {
     "end_date": "2025-12-31"
   };
   try {
-    const response = await fetch('https://api.pricelabs.co/pricesForListings', {
+    const response = await fetch('https://api.pricelabs.co/v1/pricesForListings', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
