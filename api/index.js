@@ -3,18 +3,13 @@ const fetch = require('node-fetch');
 module.exports = async (req, res) => {
   const apiKey = '9UsFenY7QpHuDKyYG961seFUd8xwHFC8NIOSH4Ef';
   const body = {
-    listings: [
-      {
-        id: "613014927246709169",
-        pms: "airbnb",
-        dateFrom: "2025-03-01",
-        dateTo: "2025-12-31",
-        reason: true
-      }
-    ]
+    "listing_ids": ["613014927246709169"],
+    "start_date": "2025-03-01",
+    "end_date": "2025-12-31",
+    "pms": "airbnb" // Added per spec
   };
   try {
-    const response = await fetch('https://api.pricelabs.co/v1/pricesForListings', {
+    const response = await fetch('https://api.pricelabs.co/pricesForListings', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
