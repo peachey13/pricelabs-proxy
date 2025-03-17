@@ -2,17 +2,38 @@ const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
   const apiKey = '9UsFenY7QpHuDKyYG961seFUd8xwHFC8NIOSH4Ef';
+
+  // Get today's date (dynamic)
+  const today = new Date();
+  // Set dateFrom to 1 year from today
+  const dateFrom = new Date(today);
+  dateFrom.setFullYear(today.getFullYear() + 1);
+  // Set dateTo to 1 year from dateFrom
+  const dateTo = new Date(dateFrom);
+  dateTo.setFullYear(dateFrom.getFullYear() + 1);
+
+  // Format dates as YYYY-MM-DD
+  const formatDate = (date) => date.toISOString().split('T')[0];
+  const dateFromStr = formatDate(dateFrom);
+  const dateToStr = formatDate(dateTo);
+
   const body = {
-    "listing_ids": ["613014927246709169"],
-    "start_date": "2025-03-01",
-    "end_date": "2025-12-31",
-    "pms": "airbnb" // Added per spec
+    "listings": [
+      {
+        "id": "613014927246709169",
+        "pms": "airbnb",
+        "dateFrom": dateFromStr,
+        "dateTo": dateToStr,
+        "reason": true
+      }
+    ]
   };
   try {
-    const response = await fetch('https://api.pricelabs.co/pricesForListings', {
+    const response = await fetch('https://api.pricelabs.co/v1/listing_prices', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${apiKey}`,
+        'accept': 'application/json',
+        'X-API-Key': apiKey,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(body)
@@ -23,4 +44,3 @@ module.exports = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
