@@ -1,16 +1,21 @@
+const express = require('express');
 const { fetch } = require('undici');
+const app = express();
+const port = 3000;
 
-module.exports = async (req, res) => {
-  const apiKey = 'UsFenY7QpHuDKyYG961seFUd8xwHFC8N';
+app.use(express.json()); // To parse JSON request bodies
+
+app.post('/fetch-pricelabs', async (req, res) => {
+  const apiKey = '9UsFenY7QpHuDKyYG961seFUd8xwHFC8NIOSH4Ef';
 
   const body = {
     listings: [
       {
-        id: "613014927246709169", // Use your actual listing IDs
+        id: "613014927246709169", // Your listing ID
         pms: "airbnb",
         dateFrom: "2025-03-01",
         dateTo: "2025-12-31",
-        reason: true, // If this is part of the request you need to send
+        reason: true,
       }
     ]
   };
@@ -26,7 +31,7 @@ module.exports = async (req, res) => {
     });
 
     if (!response.ok) {
-      const errorText = await response.text(); // Get detailed API error message
+      const errorText = await response.text();
       throw new Error(`HTTP error! Status: ${response.status} - ${errorText}`);
     }
 
@@ -36,4 +41,8 @@ module.exports = async (req, res) => {
     console.error("Error fetching PriceLabs data:", error);
     res.status(500).json({ error: error.message });
   }
-};
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
