@@ -1,8 +1,12 @@
 const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
-  const apiKey = '9UsFenY7QpHuDKyYG961seFUd8xwHFC8NIOSH4Ef';
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Origin', 'https://justpeacheyrentals.com');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
+  const apiKey = '9UsFenY7QpHuDKyYG961seFUd8xwHFC8NIOSH4Ef';
   const today = new Date();
   const dateTo = new Date(today);
   dateTo.setFullYear(today.getFullYear() + 1);
